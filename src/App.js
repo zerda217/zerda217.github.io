@@ -4,8 +4,10 @@ import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-route
 const App = () => {
   useEffect(() => {
     // 카카오 SDK 초기화
-    window.Kakao.init(process.env.REACT_APP_KAKAO_APP_KEY);
-    console.log(window.Kakao.isInitialized()); // true
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.REACT_APP_KAKAO_APP_KEY);
+      console.log(window.Kakao.isInitialized()); // true
+    }
   }, []);
 
   return (
