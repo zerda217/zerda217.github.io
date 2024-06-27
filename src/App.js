@@ -3,9 +3,10 @@ import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-route
 
 const App = () => {
   useEffect(() => {
-    // 카카오 SDK 초기화
-    window.Kakao.init(process.env.REACT_APP_KAKAO_APP_KEY);
-    console.log(window.Kakao.isInitialized()); // true
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init(process.env.REACT_APP_KAKAO_REST_KEY);
+      console.log(window.Kakao.isInitialized()); // true
+    }
   }, []);
 
   return (
@@ -27,10 +28,24 @@ const Home = () => {
     });
   };
 
+  const kakaoOnSuccess = async (data)=>{
+    navigate('/')
+    console.log(data)
+  }
+  const kakaoOnFailure = (error) => {
+      console.log(error);
+  };
+
   return (
     <div>
       <h1>Home</h1>
-      <button onClick={handleKakaoLogin}>Login with Kakao</button>
+      <button 
+        onClick={handleKakaoLogin}
+        onSuccess={kakaoOnSuccess}
+        onFail={kakaoOnFailure}
+      >
+        Login with Kakao
+      </button>
     </div>
   );
 };
