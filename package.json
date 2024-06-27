@@ -16,12 +16,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "env-cmd -f .env-cmdrc npm run react-scripts start",
-    "build": "env-cmd -f .env-cmdrc npm run react-scripts build",
-    "test": "env-cmd -f .env-cmdrc npm run react-scripts test",
+    "start": "env-cmd -f .env-cmdrc react-scripts start",
+    "build": "env-cmd -f .env-cmdrc react-scripts build",
+    "test": "env-cmd -f .env-cmdrc react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "env-cmd -f .env-cmdrc npm run build",
-    "deploy": "env-cmd -f .env-cmdrc gh-pages -d build"
+    "predeploy": "env-cmd -f .env-cmdrc react-scripts build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
