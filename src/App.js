@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-route
 const App = () => {
   useEffect(() => {
     if (!window.Kakao.isInitialized()) {
-      window.Kakao.init(process.env.REACT_APP_KAKAO_REST_KEY);
+      window.Kakao.init(process.env.REACT_APP_KAKAO_APP_KEY);
       console.log(window.Kakao.isInitialized()); // true
     }
   }, []);
