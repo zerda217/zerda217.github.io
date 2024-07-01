@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const Headline = () => {
     const [currentTime, setCurrentTime] = useState(new Date());
-    console.log('현재 시간: ', currentTime)
+    console.log('현재 시간: ', currentTime);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -21,7 +21,7 @@ const Headline = () => {
 
     return (
         <div>
-            <h1>현재 시간: {currentTime}</h1>
+            <h1>현재 시간: {formatTime(currentTime)}</h1> {/* currentTime을 문자열로 포맷하여 출력 */}
         </div>
     );
 }

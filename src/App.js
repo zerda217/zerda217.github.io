@@ -43,9 +43,9 @@ const Home = () => {
 
     return (
       <div>
-        <head>
+        <header>
           <Headline />
-        </head>
+        </header>
         <body>
           <Main />
         </body>
