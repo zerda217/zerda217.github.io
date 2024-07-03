@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import mixpanel from 'mixpanel-browser';
 import styled from 'styled-components';
 
@@ -6,6 +7,7 @@ const WordMatch = ({setMenu}) => {
     const [level, setLevel] = useState(1);
     const [language, setLanguage] = useState('english');
     const [difficulty, setDifficulty] = useState('easy');
+    const navigate = useNavigate();
 
     useEffect(() => {
         mixpanel.track('Word Game Select', {
@@ -14,8 +16,6 @@ const WordMatch = ({setMenu}) => {
             'difficulty': difficulty
         })
     }, [level, language, difficulty])
-
-    console.log('현재 상태:', level, language, difficulty);
 
     const handleLanguageClick = (lang) => {
         setLanguage(lang);
@@ -37,7 +37,8 @@ const WordMatch = ({setMenu}) => {
             'difficulty': difficulty,
             'start_time': time
         });
-        setMenu('word_game');
+        // setMenu('word_game');
+        navigate('/word_game')
     };
 
     const languages = [

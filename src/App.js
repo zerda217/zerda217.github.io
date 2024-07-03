@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import mixpanel from 'mixpanel-browser';
 
 import Headline from './block/Headline';
@@ -22,48 +22,46 @@ const App = () => {
   }, []);
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/oauth" element={<OAuthRedirect />} />
-        <Route path="/word" element={<WordMatch />} />
-        <Route element={<NotFoundPage />} />
-      </Routes>
-    </Router>
+    <div>
+      <header>
+        <Headline />
+      </header>
+      <body>
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/oauth" element={<OAuthRedirect />} />
+            <Route path="/word" element={<WordMatch />} />
+            <Route path="/word_game" element={<WordMatchGame />} />
+            <Route element={<NotFoundPage />} />
+          </Routes>
+      </body>
+    </div>
   );
 };
 
-const Home = () => {
-  const [menu, setMenu] = useState('main');
-  const navigate = useNavigate();
+// const Home = () => {
+//   const navigate = useNavigate();
 
-  const handleKakaoLogin = () => {
-    window.Kakao.Auth.authorize({
-      redirectUri: 'https://zerda217.github.io/oauth',
-    });
-  };
+//   const handleKakaoLogin = () => {
+//     window.Kakao.Auth.authorize({
+//       redirectUri: 'https://zerda217.github.io/oauth',
+//     });
+//   };
 
-  const kakaoOnSuccess = async (data)=>{
-    navigate('/')
-    console.log(data)
-  }
-  const kakaoOnFailure = (error) => {
-      console.log(error);
-  };
+//   const kakaoOnSuccess = async (data)=>{
+//     navigate('/')
+//     console.log(data)
+//   }
+//   const kakaoOnFailure = (error) => {
+//       console.log(error);
+//   };
 
-    return (
-      <div>
-        <header>
-          <Headline setMenu={setMenu} />
-        </header>
-        <body>
-          { menu == 'main' ? <Main /> : 
-            menu == 'word' ? <WordMatch setMenu={setMenu} /> :
-            menu == 'word_game' ? <WordMatchGame /> : <NotFoundPage /> }
-        </body>
-      </div>
-    );
-  };
+//     return (
+//       <div>
+//         1
+//       </div>
+//     );
+//   };
   
   
 export default App;
