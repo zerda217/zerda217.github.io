@@ -14,15 +14,15 @@ const WordMatchGame = ({ level, language, difficulty, timeElapsed, setTimeElapse
   const [matchedPairs, setMatchedPairs] = useState(new Set());
   const [countdown, setCountdown] = useState(3);
   const [gameStarted, setGameStarted] = useState(false);
-
+console.log('단어 :', words)
   const languageDisplay = languages.find(lang => lang.value === language)?.display || language;
   const difficultyDisplay = difficulties.find(diff => diff.value === difficulty)?.display || difficulty;
-
 
   useEffect(() => {
     const fetchWords = async () => {
       try {
-        const response = await fetch(`${process.env.PUBLIC_URL}/word/${language}_${difficulty}.json`);
+        const filePath = `${process.env.PUBLIC_URL}/word/${language}_${difficulty}.json`;
+        const response = await fetch(filePath);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -36,16 +36,18 @@ const WordMatchGame = ({ level, language, difficulty, timeElapsed, setTimeElapse
           const selectedWords = shuffledWords.slice(0, wordCount);
           setWords(shuffleArray([...selectedWords, ...selectedWords]));
         } else if (difficulty === 'medium') {
-          const wordCount = level * 10;
+          const wordCount = level * 8;
           const shuffledData = shuffleArray(data.slice());
           const selectedData = shuffledData.slice(0, wordCount);
-          const words = selectedData.map(item => item.word);
-          const english = selectedData.map(item => item.english);
-          setWords(shuffleArray([...words, ...english]));
+          const wordPairs = selectedData.map(item => ({ word: item.word, english: item.english }));
+          const allWords = shuffleArray(wordPairs.reduce((acc, pair) => acc.concat(pair, { word: pair.english, english: pair.word }), []));
+          setWords(allWords);
         } else if (difficulty === 'hard') {
           if (Array.isArray(language) && language.length === 2) {
-            const firstLangResponse = await fetch(`${process.env.PUBLIC_URL}/word/${language[0]}_${difficulty}.json`);
-            const secondLangResponse = await fetch(`${process.env.PUBLIC_URL}/word/${language[1]}_${difficulty}.json`);
+            const [lang1, lang2] = language;
+
+            const firstLangResponse = await fetch(`${process.env.PUBLIC_URL}/word/${lang1}_${difficulty}.json`);
+            const secondLangResponse = await fetch(`${process.env.PUBLIC_URL}/word/${lang2}_${difficulty}.json`);
 
             if (!firstLangResponse.ok || !secondLangResponse.ok) {
               throw new Error('HTTP error! status: ' + firstLangResponse.status + ' ' + secondLangResponse.status);
@@ -55,17 +57,18 @@ const WordMatchGame = ({ level, language, difficulty, timeElapsed, setTimeElapse
             const secondLangData = await secondLangResponse.json();
 
             const firstLangShuffled = shuffleArray(firstLangData.slice());
-            const selectedFirstLang = firstLangShuffled.slice(0, level * 10);
+            const selectedFirstLang = firstLangShuffled.slice(0, level * 8);
             const englishList = selectedFirstLang.map(item => item.english);
             const selectedSecondLang = secondLangData.filter(item => englishList.includes(item.english));
 
-            if (selectedSecondLang.length < level * 10) {
+            if (selectedSecondLang.length < level * 8) {
               throw new Error('Insufficient matching words for hard difficulty');
             }
 
-            const firstLangWords = selectedFirstLang.map(item => item.word);
-            const secondLangWords = selectedSecondLang.map(item => item.word);
-            setWords(shuffleArray([...firstLangWords, ...secondLangWords]));
+            const firstLangWords = selectedFirstLang.map(item => ({ word: item.word, english: item.english, language: lang1 }));
+            const secondLangWords = selectedSecondLang.map(item => ({ word: item.word, english: item.english, language: lang2 }));
+            const allWords = shuffleArray([...firstLangWords, ...secondLangWords]);
+            setWords(allWords);
           } else {
             throw new Error('Invalid language configuration for hard difficulty');
           }
@@ -102,7 +105,7 @@ const WordMatchGame = ({ level, language, difficulty, timeElapsed, setTimeElapse
   }, [gameStarted]);
 
   useEffect(() => {
-    if (words.length > 0 && matchedPairs.size * 2 === words.length) {
+    if (words.length > 0 && matchedPairs.size === words.length) {
       mixpanel.track('Word Game Clear', {
         'Level': level,
         'language': language,
@@ -118,20 +121,25 @@ const WordMatchGame = ({ level, language, difficulty, timeElapsed, setTimeElapse
     setGridColumns(cols);
   };
 
-  const handleCardClick = (word, index) => {
+  const handleCardClick = (wordObj, index) => {
     if (!gameStarted) return;
     if (selectedWords.length === 0) {
-      setSelectedWords([{ word, index }]);
+      setSelectedWords([{ wordObj, index }]);
     } else if (selectedWords.length === 1) {
       const [firstSelected] = selectedWords;
-      if (firstSelected.word === word && firstSelected.index !== index) {
-        setMatchedPairs(new Set([...matchedPairs, word]));
+      const isMatch = 
+        (difficulty === 'easy' && firstSelected.wordObj === wordObj) ||
+        (difficulty === 'medium' && (firstSelected.wordObj.word === wordObj.word && firstSelected.wordObj.english === wordObj.english || firstSelected.wordObj.word === wordObj.english && firstSelected.wordObj.english === wordObj.word)) ||
+        (difficulty === 'hard' && firstSelected.wordObj.english === wordObj.english && firstSelected.wordObj.language !== wordObj.language);
+
+      if (isMatch && firstSelected.index !== index) {
+        setMatchedPairs(new Set([...matchedPairs, firstSelected.wordObj.word, wordObj.word]));
         setSelectedWords([]);
       } else {
-        setSelectedWords([{ word, index }]);
+        setSelectedWords([{ wordObj, index }]);
       }
     } else {
-      setSelectedWords([{ word, index }]);
+      setSelectedWords([{ wordObj, index }]);
     }
   };
 
@@ -157,14 +165,14 @@ const WordMatchGame = ({ level, language, difficulty, timeElapsed, setTimeElapse
         ))}
       </ButtonContainer>
       <Board columns={gridColumns}>
-        {words.map((word, index) => (
+        {words.map((wordObj, index) => (
           <WordCard
             key={index}
-            onClick={() => handleCardClick(word, index)}
-            matched={matchedPairs.has(word)}
+            onClick={() => handleCardClick(wordObj, index)}
+            matched={matchedPairs.has(wordObj.word)}
             selected={selectedWords.some(selected => selected.index === index)}
           >
-            {word}
+            {difficulty === 'easy' ? wordObj : wordObj.word}
           </WordCard>
         ))}
       </Board>

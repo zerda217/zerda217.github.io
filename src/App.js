@@ -13,7 +13,7 @@ import NotFoundPage from './page/404';
 const App = () => {
   const [level, setLevel] = useState(1);
   const [language, setLanguage] = useState('korean');
-  const [difficulty, setDifficulty] = useState('easy');
+  const [difficulty, setDifficulty] = useState('medium');
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [userName, setUserName] = useState('');
   
@@ -37,7 +37,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/oauth" element={<OAuthRedirect />} />
-            <Route path="/word" element={<WordMatch level={level} setLevel={setLevel} language={language} setLanguage={setLanguage} difficulty={difficulty} setDifficulty={setDifficulty}  />} />
+            <Route path="/word" element={<WordMatch level={level} setLevel={setLevel} language={language} setLanguage={setLanguage} difficulty={difficulty} setDifficulty={setDifficulty} setTimeElapsed={setTimeElapsed} />} />
             <Route path="/word_game" element={<WordMatchGame level={level} language={language} difficulty={difficulty} timeElapsed={timeElapsed} setTimeElapsed={setTimeElapsed} />} />
             <Route path="/word_clear" element={<WordMatchClear level={level} language={language} difficulty={difficulty} timeElapsed={timeElapsed} userName={userName} setUserName={setUserName} />} />
             <Route element={<NotFoundPage />} />

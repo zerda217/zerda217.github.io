@@ -11,7 +11,7 @@ export const languages = [
 ];
 
 export const difficulties = [
-    { display: '쉬움', value: 'easy' },
-    // { display: '보통', value: 'medium' },
+    // { display: '쉬움', value: 'easy' },
+    { display: '보통', value: 'medium' },
     // { display: '어려움', value: 'hard' }
 ];

@@ -34,7 +34,7 @@ const WordMatchClear = ({ level, language, difficulty, timeElapsed, userName, se
             <TitleContainer>
                 <Circle>{level} 단계</Circle>
                 <Circle>{languageDisplay}</Circle>
-                <Circle>난이도 {difficulty}</Circle>
+                <Circle>난이도 {difficultyDisplay}</Circle>
             </TitleContainer>
             <Wrap>
                 <Input

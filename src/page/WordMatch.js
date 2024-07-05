@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { languages, difficulties } from '../asset/data';
 
-const WordMatch = ({level, setLevel, language, setLanguage, difficulty, setDifficulty}) => {
+const WordMatch = ({level, setLevel, language, setLanguage, difficulty, setDifficulty, setTimeElapsed }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -36,6 +36,7 @@ const WordMatch = ({level, setLevel, language, setLanguage, difficulty, setDiffi
             'difficulty': difficulty,
             'start_time': time
         });
+        setTimeElapsed(0);
         navigate('/word_game')
     };
 
