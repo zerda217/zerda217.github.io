@@ -3,10 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import mixpanel from 'mixpanel-browser';
 import styled from 'styled-components';
 
-const WordMatch = ({setMenu}) => {
-    const [level, setLevel] = useState(1);
-    const [language, setLanguage] = useState('english');
-    const [difficulty, setDifficulty] = useState('easy');
+import { languages, difficulties } from '../asset/data';
+
+const WordMatch = ({level, setLevel, language, setLanguage, difficulty, setDifficulty}) => {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -30,30 +29,15 @@ const WordMatch = ({setMenu}) => {
     };
 
     const handleStartClick = () => {
-        const time = new Date();
+        const time = new Date().toISOString();
         mixpanel.track('Word Game Start', {
             'Level': level,
             'language': language,
             'difficulty': difficulty,
             'start_time': time
         });
-        // setMenu('word_game');
         navigate('/word_game')
     };
-
-    const languages = [
-        { display: '영어', value: 'english' },
-        { display: '한국어', value: 'korean' },
-        { display: '스페인어', value: 'spanish' },
-        { display: '중국어', value: 'chinese' },
-        { display: '일본어', value: 'japanese' }
-    ];
-
-    const difficulties = [
-        { display: '쉬움', value: 'easy' },
-        { display: '보통', value: 'medium' },
-        { display: '어려움', value: 'hard' }
-    ];
 
     return (
         <Wrap>
@@ -139,16 +123,17 @@ const Circle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 20px; /* 글자 길이에 따라 width가 변경되도록 padding 사용 */
+  padding: 1vh 1vh; /* 글자 길이에 따라 width가 변경되도록 padding 사용 */
   border-radius: 25px;
   border: ${(props) => (props.selected ? '1px solid #000' : '1px solid #eee')};
-  margin: 5px;
+  margin: 1vh;
   cursor: pointer;
-  background-color: ${(props) => (props.selected ? '#D4C1DD' : 'white')};
+  background-color: ${(props) => (props.selected ? '#E2F5EB' : 'white')};
   &:hover {
-    background-color: ${(props) => (props.selected ? '#D4C1DD' : '#EEEEEE')};
+    background-color: ${(props) => (props.selected ? '#E2F5EB' : '#EEEEEE')};
   }
   transition: background-color 0.3s;
 `;
 
 export default WordMatch;
+  

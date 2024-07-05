@@ -7,9 +7,16 @@ import OAuthRedirect from './block/OAuthRedirect';
 import Main from './page/Main';
 import WordMatch from './page/WordMatch';
 import WordMatchGame from './page/WordMatchGame';
+import WordMatchClear from './page/WordMatchClear';
 import NotFoundPage from './page/404';
 
 const App = () => {
+  const [level, setLevel] = useState(1);
+  const [language, setLanguage] = useState('korean');
+  const [difficulty, setDifficulty] = useState('easy');
+  const [timeElapsed, setTimeElapsed] = useState(0);
+  const [userName, setUserName] = useState('');
+  
   useEffect(() => {
     mixpanel.init(process.env.REACT_APP_MIXPANNEL_TOKEN, {debug: true, track_pageview: true, persistence: 'localStorage'});
   }, []);
@@ -30,8 +37,9 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/oauth" element={<OAuthRedirect />} />
-            <Route path="/word" element={<WordMatch />} />
-            <Route path="/word_game" element={<WordMatchGame />} />
+            <Route path="/word" element={<WordMatch level={level} setLevel={setLevel} language={language} setLanguage={setLanguage} difficulty={difficulty} setDifficulty={setDifficulty}  />} />
+            <Route path="/word_game" element={<WordMatchGame level={level} language={language} difficulty={difficulty} timeElapsed={timeElapsed} setTimeElapsed={setTimeElapsed} />} />
+            <Route path="/word_clear" element={<WordMatchClear level={level} language={language} difficulty={difficulty} timeElapsed={timeElapsed} userName={userName} setUserName={setUserName} />} />
             <Route element={<NotFoundPage />} />
           </Routes>
       </body>

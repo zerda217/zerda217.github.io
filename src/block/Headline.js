@@ -43,7 +43,7 @@ const Wrap = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 9vh;
+  height: 7vh;
   background: #1d6f42;
   border: none;
   color: white;
@@ -52,8 +52,13 @@ const Wrap = styled.div`
 `;
 
 const Button = styled.button`
+  background-color: transparent;  
   border: 1px solid white;
   margin: 1vh;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* 필요에 따라 hover 효과 설정 */
+  }
 `;
 
 export default Headline;
