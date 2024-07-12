@@ -40,7 +40,7 @@ const App = () => {
             <Route path="/word" element={<WordMatch level={level} setLevel={setLevel} language={language} setLanguage={setLanguage} difficulty={difficulty} setDifficulty={setDifficulty} setTimeElapsed={setTimeElapsed} />} />
             <Route path="/word_game" element={<WordMatchGame level={level} language={language} difficulty={difficulty} timeElapsed={timeElapsed} setTimeElapsed={setTimeElapsed} />} />
             <Route path="/word_clear" element={<WordMatchClear level={level} language={language} difficulty={difficulty} timeElapsed={timeElapsed} userName={userName} setUserName={setUserName} />} />
-            <Route element={<NotFoundPage />} />
+            <Route path="/*" element={<Main />} />
           </Routes>
       </body>
     </div>

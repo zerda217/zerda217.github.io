@@ -23,11 +23,26 @@ const WordMatchClear = ({ level, language, difficulty, timeElapsed, userName, se
     };
 
     const handleTwitterShare = () => {
+      mixpanel.track('WordGameShare', {
+        'Level': level,
+        'Language': language,
+        'Difficulty': difficulty,
+        'User Name': userName,
+        'Time Elapsed': timeElapsed,
+        'SNS': 'Twitter'
+    });
         const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-            ` ${level}단계  ${languageDisplay}를 난이도 ${difficultyDisplay} 로 ${timeElapsed} 초만에 맞췄습니다! https://zerda217.github.io 깃헙으로 홈페이지 만들기 참 어렵습니다. 새로고침이 안 됩니다. 시무룩.`
+            ` ${level}단계  ${languageDisplay}를 난이도 ${difficultyDisplay} 로 ${timeElapsed} 초만에 맞췄습니다! https://zerda217.github.io`
         )}`;
         window.open(twitterUrl, '_blank');
     };
+
+    const handleRestart = () => {
+      mixpanel.track('WordGameRestart', {
+        'User Name': userName,
+      });
+      navigate('/word')
+    }
 
     return (
         <Wrap>
@@ -45,7 +60,7 @@ const WordMatchClear = ({ level, language, difficulty, timeElapsed, userName, se
                 />
                 <Button onClick={handleMixpanelSubmit}>랭킹 등록하기</Button>
                 <Button onClick={handleTwitterShare}>트위터에 공유하기</Button>
-                <Button onClick={() => navigate('/word')}>재 도전하기</Button>
+                <Button onClick={handleRestart}>재 도전하기</Button>
             </Wrap>
         </Wrap>
     )
