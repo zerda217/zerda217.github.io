@@ -8,6 +8,7 @@ import Main from './page/Main';
 import WordMatch from './page/WordMatch';
 import WordMatchGame from './page/WordMatchGame';
 import WordMatchClear from './page/WordMatchClear';
+import Dibu from './page/Dibu';
 import NotFoundPage from './page/404';
 
 const App = () => {
@@ -21,12 +22,12 @@ const App = () => {
     mixpanel.init(process.env.REACT_APP_MIXPANNEL_TOKEN, {debug: true, track_pageview: true, persistence: 'localStorage'});
   }, []);
 
-  useEffect(() => {
-    if (!window.Kakao.isInitialized()) {
-      window.Kakao.init(process.env.REACT_APP_KAKAO_REST_KEY);
-      console.log(window.Kakao.isInitialized()); // true
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!window.Kakao.isInitialized()) {
+  //     window.Kakao.init(process.env.REACT_APP_KAKAO_REST_KEY);
+  //     console.log(window.Kakao.isInitialized()); // true
+  //   }
+  // }, []);
 
   return (
     <div>
@@ -40,6 +41,7 @@ const App = () => {
             <Route path="/word" element={<WordMatch level={level} setLevel={setLevel} language={language} setLanguage={setLanguage} difficulty={difficulty} setDifficulty={setDifficulty} setTimeElapsed={setTimeElapsed} />} />
             <Route path="/word_game" element={<WordMatchGame level={level} language={language} difficulty={difficulty} timeElapsed={timeElapsed} setTimeElapsed={setTimeElapsed} />} />
             <Route path="/word_clear" element={<WordMatchClear level={level} language={language} difficulty={difficulty} timeElapsed={timeElapsed} userName={userName} setUserName={setUserName} />} />
+            <Route path="/ddibu" element={<Dibu />} />
             <Route path="/*" element={<Main />} />
           </Routes>
       </body>

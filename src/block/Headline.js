@@ -34,6 +34,7 @@ const Headline = () => {
       <p>현재 시간: {formatTime(currentTime)}</p>
       <Button onClick={() => MenuClick('/main')}> 처음 </Button>
       <Button onClick={() => MenuClick('/word')}> 단어 </Button>
+      <Button onClick={() => MenuClick('/ddibu')}> 교환 </Button>
     </Wrap>
   );
 };
