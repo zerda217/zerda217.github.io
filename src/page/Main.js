@@ -19,23 +19,18 @@ const Index = () => {
         if (rows.length < 2) return "적어도 두 줄 이상의 데이터를 입력하세요."
 
         const header = rows[0];
-        const dataRows = rows.slice(1);
+        const dataRows = rows.slice(1, 1901);
 
-        const transformedRows = dataRows.map((row) => {
+        const transformedRows = dataRows.map((row, index) => {
             const cols = row.split(/\s+/);
             // if (cols.length < 8) return "r각 행에 8개 컬럼이 있어야 합니다."
             
-            return `SELECT '${cols[0]}' AS LOCAL_TIMESTAMP,
-            '${cols[1]}' AS TIMESTAMP,
-            SAFE_CAST(NULL AS STRING) AS CLIENT_ID,
-            '${cols[2]}' AS SST_ID,
-            SAFE_CAST(NULL AS STRING) AS SESSION_ID,
-            '${cols[3]}' AS SST_SESSION_ID,
-            '${cols[4]}' AS EVENT_NAME,
-            '${cols[5]}' AS PAGE_LOCATION UNION ALL`
+            const sqlQuery = `SELECT '${cols[0]}' AS LOCAL_TIMESTAMP, '${cols[1]}' AS TIMESTAMP, SAFE_CAST(NULL AS STRING) AS CLIENT_ID, '${cols[2]}' AS SST_ID, SAFE_CAST(NULL AS STRING) AS SESSION_ID, '${cols[3]}' AS SST_SESSION_ID, '${cols[4]}' AS EVENT_NAME, '${cols[5]}' AS PAGE_LOCATION`
+
+            return index < dataRows.length - 1 ? `${sqlQuery} UNION ALL` : sqlQuery;
         })
 
-        return [...transformedRows].join("\n");
+        return transformedRows.join("\n");
     }
 
     const onChange1 = (e) => {
@@ -74,21 +69,16 @@ const Index = () => {
         const header = rows[0];
         const dataRows = rows.slice(1);
 
-        const transformedRows = dataRows.map((row) => {
+        const transformedRows = dataRows.map((row, index) => {
             const cols = row.split(/\s+/);
             // if (cols.length < 8) return "r각 행에 8개 컬럼이 있어야 합니다."
             
-            return `SELECT '${cols[0]}' AS LOCAL_TIMESTAMP,
-            '${cols[1]}' AS TIMESTAMP,
-            SAFE_CAST(NULL AS STRING) AS CLIENT_ID,
-            '${cols[2]}' AS SST_ID,
-            SAFE_CAST(NULL AS STRING) AS SESSION_ID,
-            '${cols[3]}' AS SST_SESSION_ID,
-            '${cols[4]}' AS EVENT_NAME,
-            '${cols[5]}' AS PAGE_LOCATION UNION ALL`
+            const sqlQuery = `SELECT DATETIME('${cols[0]}') AS LOCAL_TIMESTAMP, '${cols[1]}' AS EVENT_NAME, '${cols[2]}' AS GA_CLIENT_ID, '${cols[3]}' AS GA_SESSION_ID, '${cols[4]}' AS SST_ID, '${cols[5]}' AS SST_SESSION_ID`
+
+            return index < dataRows.length - 1 ? `${sqlQuery} UNION ALL` : sqlQuery;
         })
 
-        return [...transformedRows].join("\n");
+        return transformedRows.join("\n");
     }
 
     const onChange2 = (e) => {
@@ -189,7 +179,8 @@ const Wrap = styled.div`
     display:grid;
     grid-template-columns: 1fr 0.2fr 1fr 0.2fr;
     padding: 20px;
-    border: 1px solid black;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
     justify-content: center;
     align-items: center;
 `;
