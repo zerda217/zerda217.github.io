@@ -116,7 +116,7 @@ const Index = () => {
                 <Div>
                     <h4>1</h4>
                     <textarea
-                        style={{ width: "90%", height: "90%", padding: "1%"}}
+                        style={{ width: "90%", height: "165px", padding: "1%"}}
                         value={inputText1} 
                         onChange={(e) => onChange1(e)}
                         onKeyDown={handleKeyDown1}
@@ -126,7 +126,7 @@ const Index = () => {
                 <Div>
                     <h4>1 copy</h4>
                     <textarea 
-                        style={{ width: "90%", height: "90%", padding: "1%"}}
+                        style={{ width: "90%", height: "165px", padding: "1%"}}
                         ref={outputRef1}
                         value={outputText1}
                         readOnly
@@ -147,7 +147,7 @@ const Index = () => {
                 <Div>
                     <h4>2</h4>
                     <textarea
-                        style={{ width: "90%", height: "90%", padding: "1%"}}
+                        style={{ width: "90%", height: "165px", padding: "1%"}}
                         value={inputText2} 
                         onChange={(e) => onChange2(e)}
                         onKeyDown={handleKeyDown2}
@@ -157,7 +157,7 @@ const Index = () => {
                 <Div>
                     <h4>2 copy</h4>
                     <textarea
-                        style={{ width: "90%", height: "90%", padding: "1%"}}
+                        style={{ width: "90%", height: "165px", padding: "1%"}}
                         ref={outputRef2}
                         value={outputText2}
                         readOnly
