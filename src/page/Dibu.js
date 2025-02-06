@@ -5,7 +5,7 @@ const Index = () => {
     return (
         <div>
             <p>하자. 교환.</p>
-            <List data={ddibuType} />
+            {/* <List data={ddibuType} /> */}
         </div>
     )
 };
