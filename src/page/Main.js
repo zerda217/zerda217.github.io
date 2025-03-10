@@ -12,13 +12,13 @@ const Index = () => {
 };
 
 const Wrap = styled.div`
-  display: flex;
-  gap: 20px;
-  padding: 20px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    display:grid;
+    grid-template-columns: 1fr 0.2fr 1fr 0.2fr;
+    padding: 20px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    justify-content: center;
+    align-items: center;
 `;
-
 
 export default Index;
