@@ -5,7 +5,6 @@ import mixpanel from 'mixpanel-browser';
 import Headline from './block/Headline';
 import OAuthRedirect from './block/OAuthRedirect';
 import Main from './page/Main';
-import Trans from './page/Trans';
 import WordMatch from './page/WordMatch';
 import WordMatchGame from './page/WordMatchGame';
 import WordMatchClear from './page/WordMatchClear';
@@ -43,7 +42,6 @@ const App = () => {
             <Route path="/word_game" element={<WordMatchGame level={level} language={language} difficulty={difficulty} timeElapsed={timeElapsed} setTimeElapsed={setTimeElapsed} />} />
             <Route path="/word_clear" element={<WordMatchClear level={level} language={language} difficulty={difficulty} timeElapsed={timeElapsed} userName={userName} setUserName={setUserName} />} />
             <Route path="/ddibu" element={<Dibu />} />
-            <Route path="/trans" element={<Trans />} />
             <Route path="/*" element={<Main />} />
           </Routes>
       </body>
