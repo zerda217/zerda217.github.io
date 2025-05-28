@@ -4,10 +4,10 @@ import mixpanel from 'mixpanel-browser';
 import styled from 'styled-components';
 
 const List = ({data}) => {
-    console.log('들어오나?', data)
-    const [listData, setListData] = useState(data)
-    useEffect(() => {
-        console.log('띠부타입', listData)
+    console.log('띠부타입', data);
+    const [listData, setListData] = useState([])
+    useEffect((data) => {
+        setListData(data);
     }, []);
 
     const ListClick = (page) => {
@@ -19,19 +19,30 @@ const List = ({data}) => {
 
     
     return (
-        <div>
-            { setListData ??
-                setListData.map(index => {
-                    <div key={index}>
-                        <div> {setListData.brand} </div>
-                        <div> {setListData.title} </div>
-                        <div> {setListData.category} </div>
+        <Wrap>
+            {data 
+                && <div>
+                        {data.map((i) => (
+                            <ListWrap
+                                key={i.index}
+                            >
+                                {i.brand} {i.title} {i.category} {i.etc}
+                            </ListWrap>
+                        ))}
                     </div>
-
-                })
             }
-        </div>
+        </Wrap>
     )
 };
+
+const Wrap = styled.div`
+  border : 1px solid black;
+  height: 50vh;
+`;
+
+const ListWrap = styled.div`
+  border : 1px solid black;
+  padding: 10px;
+`;
 
 export default List;

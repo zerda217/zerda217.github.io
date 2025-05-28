@@ -1,11 +1,11 @@
 import List from '../block/List'
-import ddibuType from '../asset/ddibu-type'
+import ddibuType from '../asset/ddibu_type'
 
 const Index = () => {
     return (
         <div>
             <p>하자. 교환.</p>
-            {/* <List data={ddibuType} /> */}
+            <List data={ddibuType} />
         </div>
     )
 };
