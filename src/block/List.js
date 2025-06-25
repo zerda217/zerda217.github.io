@@ -3,12 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import mixpanel from 'mixpanel-browser';
 import styled from 'styled-components';
 
-const List = ({data}) => {
-    console.log('띠부타입', data);
-    const [listData, setListData] = useState([])
-    useEffect((data) => {
-        setListData(data);
-    }, []);
+const List = (file) => {
+    console.log('선택한 띠부 카테고리:', file.data);
+    const [data, setData] = useState([]);
+    console.log('데이터: ', data);
+
+    useEffect(() => {
+        const fileName = `${file.data}.js`;
+
+        import(`../asset/${fileName}`)
+            .then((module) => {
+                setData(module.default)
+            })
+            .catch((error) => {
+                setData(null)
+                console.error(`데이터 불러오기 실패`)
+            })
+    }, [file])
 
     const ListClick = (page) => {
         mixpanel.track('List Select', {
@@ -16,33 +27,45 @@ const List = ({data}) => {
         });
         // navigate(page);
     };
-
     
     return (
-        <Wrap>
-            {data 
-                && <div>
+        <div>
+            {data ? 
+                <Wrap>
                         {data.map((i) => (
                             <ListWrap
-                                key={i.index}
+                                key={i.number}
                             >
-                                {i.brand} {i.title} {i.category} {i.etc}
+                                <Div>{i.number}</Div> <Div>{i.kor_name}</Div>
+                                <Div>{i.img_src}</Div>
                             </ListWrap>
                         ))}
-                    </div>
+                </Wrap>
+                :
+                <div>
+                    업데이트 중...
+                </div>
             }
-        </Wrap>
+        </div>
     )
 };
 
 const Wrap = styled.div`
-  border : 1px solid black;
-  height: 50vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 1vh;
+  padding: 1vh;
 `;
 
 const ListWrap = styled.div`
+  display: grid;
+  grid-template-columns: 0.3fr 1fr;
+  gap: 1vh;
+  padding: 0.5vh;
   border : 1px solid black;
-  padding: 10px;
 `;
+
+const Div = styled.div`
+`
 
 export default List;

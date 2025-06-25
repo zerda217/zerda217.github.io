@@ -1,11 +1,11 @@
-import List from '../block/List'
-import ddibuType from '../asset/ddibu_type'
+import ListCategory from '../block/ListCategory.js';
+import ddibuType from '../asset/ddibu_type.js';
 
 const Index = () => {
     return (
         <div>
             <p>하자. 교환.</p>
-            <List data={ddibuType} />
+            <ListCategory data={ddibuType} />
         </div>
     )
 };
