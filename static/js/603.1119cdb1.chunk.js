@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkzerda217_github_io=self.webpackChunkzerda217_github_io||[]).push([[603],{603:(e,n,a)=>{a.r(n),a.d(n,{default:()=>r});const r=[{generation:1,category:"pixel",number:"001",eng_name:"easy",kor_name:"\uc774\uc0c1\ud574\uc528",img_src:""},{generation:1,category:"pixel",number:"002",eng_name:"easy",kor_name:"\uc774\uc0c1\ud574\ud480",img_src:""},{generation:1,category:"pixel",number:"003",eng_name:"easy",kor_name:"\uc774\uc0c1\ud574\uaf43",img_src:""}]}}]);
+//# sourceMappingURL=603.1119cdb1.chunk.js.map
