@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { GoogleOAuthProvider, GoogleLogin, googleLogout } from "@react-oauth/google";
 import mixpanel from 'mixpanel-browser';
 import styled from 'styled-components';
 
 const Headline = () => {
   const navigate = useNavigate();
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [isLogin, setIsLogin] = useState(false);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
+  // Google Login - JWT 토큰을 디코딩하거나 사용자 정보를 처리
+  const handleLoginSuccess = (credentialResponse) => {
+    console.log("Login Success:", credentialResponse);
+    setIsLogin(true); // 로그인 상태로 변경
+  };
 
-    return () => clearInterval(timer);
-  }, []);
+  const handleLoginFailure = () => {
+    console.log("Login Failed");
+  };
 
-  const formatTime = (date) => {
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-    return `${hours}:${minutes}:${seconds}`;
+  const handleLogout = () => {
+    googleLogout(); // Google 로그아웃 처리
+    setIsLogin(false); // 로그인 상태 해제
+    console.log("Logged out");
   };
 
   const MenuClick = (page) => {
@@ -31,17 +33,37 @@ const Headline = () => {
 
   return (
     <Wrap>
-      <p>현재 시간: {formatTime(currentTime)}</p>
-      <Button onClick={() => MenuClick('/main')}> 처음 </Button>
-      <Button onClick={() => MenuClick('/word')}> 단어 </Button>
-      <Button onClick={() => MenuClick('/ddibu')}> 교환 </Button>
+      <div></div>
+      <div>
+        <Button onClick={() => MenuClick('/main')}> 처음 </Button>
+        <Button onClick={() => MenuClick('/word')}> 단어 </Button>
+        <Button onClick={() => MenuClick('/ddibu')}> 교환 </Button>
+      </div>
+      
+      <div>
+        {isLogin ? (
+          <>
+            <Button onClick={handleLogout}>로그아웃</Button>
+          </>
+        ) : (
+          <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+            <div>
+              <GoogleLogin
+                onSuccess={handleLoginSuccess}
+                onError={handleLoginFailure}
+                size="small"
+              />
+            </div>
+          </GoogleOAuthProvider>
+        )}
+      </div>
     </Wrap>
   );
 };
 
 const Wrap = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   width: 100%;
   height: 7vh;
